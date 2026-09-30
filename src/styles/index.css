@@ -1,0 +1,417 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+/*
+ * Design system
+ * -------------
+ * All colors are semantic tokens. The default Tailwind palette is disabled on purpose:
+ * components must use tokens (bg-surface-1, text-fg-muted, border-line, bg-accent, ...)
+ * so the whole UI stays consistent across themes.
+ *
+ * Surfaces (darkest → lightest in dark theme):
+ *   canvas     viewport background behind the artboard
+ *   surface-0  app chrome background (gaps between panels, top bar)
+ *   surface-1  panels
+ *   surface-2  inputs, raised rows, panel headers
+ *   surface-3  menus, popovers, dialogs
+ */
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  --color-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+
+  --font-sans:
+    'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+
+  --text-2xs: 10px;
+  --text-2xs--line-height: 14px;
+  --text-xs: 11px;
+  --text-xs--line-height: 16px;
+  --text-sm: 12px;
+  --text-sm--line-height: 16px;
+  --text-base: 13px;
+  --text-base--line-height: 20px;
+  --text-md: 14px;
+  --text-md--line-height: 20px;
+  --text-lg: 16px;
+  --text-lg--line-height: 24px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 26px;
+  --text-2xl--line-height: 32px;
+
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --animate-pop-in: le-pop-in 120ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  --animate-fade-in: le-fade-in 120ms ease-out;
+  --animate-dialog-in: le-dialog-in 160ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  --animate-spin: spin 0.8s linear infinite;
+
+  --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --default-transition-duration: 80ms;
+  --default-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+@theme inline {
+  --color-canvas: var(--le-canvas);
+  --color-surface-0: var(--le-surface-0);
+  --color-surface-1: var(--le-surface-1);
+  --color-surface-2: var(--le-surface-2);
+  --color-surface-3: var(--le-surface-3);
+
+  --color-hover: var(--le-hover);
+  --color-pressed: var(--le-pressed);
+  --color-selected: var(--le-selected);
+  --color-selected-strong: var(--le-selected-strong);
+
+  --color-line: var(--le-line);
+  --color-line-strong: var(--le-line-strong);
+  --color-line-subtle: var(--le-line-subtle);
+
+  --color-fg: var(--le-fg);
+  --color-fg-muted: var(--le-fg-muted);
+  --color-fg-subtle: var(--le-fg-subtle);
+  --color-fg-faint: var(--le-fg-faint);
+
+  --color-accent: var(--le-accent);
+  --color-accent-hover: var(--le-accent-hover);
+  --color-accent-fg: var(--le-accent-fg);
+  --color-accent-text: var(--le-accent-text);
+  --color-accent-subtle: var(--le-accent-subtle);
+
+  --color-danger: var(--le-danger);
+  --color-danger-subtle: var(--le-danger-subtle);
+  --color-warning: var(--le-warning);
+  --color-warning-subtle: var(--le-warning-subtle);
+  --color-success: var(--le-success);
+  --color-success-subtle: var(--le-success-subtle);
+
+  /* Layer type label colors (icons, timeline bars) */
+  --color-label-shape: var(--le-label-shape);
+  --color-label-precomp: var(--le-label-precomp);
+  --color-label-text: var(--le-label-text);
+  --color-label-image: var(--le-label-image);
+  --color-label-solid: var(--le-label-solid);
+  --color-label-null: var(--le-label-null);
+  --color-label-other: var(--le-label-other);
+
+  --shadow-popover: var(--le-shadow-popover);
+  --shadow-dialog: var(--le-shadow-dialog);
+  --shadow-thumb: var(--le-shadow-thumb);
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --le-canvas: #0e0f11;
+  --le-surface-0: #111214;
+  --le-surface-1: #16171a;
+  --le-surface-2: #1d1e22;
+  --le-surface-3: #222328;
+
+  --le-hover: rgb(255 255 255 / 0.055);
+  --le-pressed: rgb(255 255 255 / 0.09);
+  --le-selected: rgb(52 112 232 / 0.2);
+  --le-selected-strong: rgb(52 112 232 / 0.34);
+
+  --le-line: #26282d;
+  --le-line-strong: #34363c;
+  --le-line-subtle: #1e2024;
+
+  --le-fg: #e8e9ed;
+  --le-fg-muted: #a4a8b1;
+  --le-fg-subtle: #858a94;
+  --le-fg-faint: #53565e;
+
+  --le-accent: #3470e8;
+  --le-accent-hover: #4580f0;
+  --le-accent-fg: #ffffff;
+  --le-accent-text: #7ea6ff;
+  --le-accent-subtle: rgb(52 112 232 / 0.18);
+
+  --le-danger: #f0555b;
+  --le-danger-subtle: rgb(240 85 91 / 0.14);
+  --le-warning: #e8a93b;
+  --le-warning-subtle: rgb(232 169 59 / 0.14);
+  --le-success: #3fbf7f;
+  --le-success-subtle: rgb(63 191 127 / 0.14);
+
+  --le-label-shape: #5b8def;
+  --le-label-precomp: #9a83e0;
+  --le-label-text: #d2a04c;
+  --le-label-image: #4fb58a;
+  --le-label-solid: #d9695f;
+  --le-label-null: #8a8f99;
+  --le-label-other: #5fa8b8;
+
+  --le-checker-a: #1a1b1e;
+  --le-checker-b: #222327;
+
+  --le-shadow-popover: 0 0 0 1px var(--le-line-strong), 0 8px 24px -4px rgb(0 0 0 / 0.55);
+  --le-shadow-dialog: 0 0 0 1px var(--le-line-strong), 0 24px 64px -12px rgb(0 0 0 / 0.7);
+  --le-shadow-thumb: 0 1px 2px rgb(0 0 0 / 0.5);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --le-canvas: #e6e7ea;
+  --le-surface-0: #eceef1;
+  --le-surface-1: #ffffff;
+  --le-surface-2: #f4f5f7;
+  --le-surface-3: #ffffff;
+
+  --le-hover: rgb(0 0 0 / 0.045);
+  --le-pressed: rgb(0 0 0 / 0.08);
+  --le-selected: rgb(47 111 237 / 0.11);
+  --le-selected-strong: rgb(47 111 237 / 0.2);
+
+  --le-line: #e1e3e7;
+  --le-line-strong: #cdd0d6;
+  --le-line-subtle: #eceef1;
+
+  --le-fg: #17181b;
+  --le-fg-muted: #4d525c;
+  --le-fg-subtle: #6b7079;
+  --le-fg-faint: #b3b6bd;
+
+  --le-accent: #2f6fed;
+  --le-accent-hover: #2560d6;
+  --le-accent-fg: #ffffff;
+  --le-accent-text: #2563dc;
+  --le-accent-subtle: rgb(47 111 237 / 0.1);
+
+  --le-danger: #d93a41;
+  --le-danger-subtle: rgb(217 58 65 / 0.1);
+  --le-warning: #b87a0e;
+  --le-warning-subtle: rgb(214 150 30 / 0.14);
+  --le-success: #1f9a5e;
+  --le-success-subtle: rgb(31 154 94 / 0.1);
+
+  --le-label-shape: #3d74e0;
+  --le-label-precomp: #7b61d1;
+  --le-label-text: #b7832a;
+  --le-label-image: #2f9a6c;
+  --le-label-solid: #cc5147;
+  --le-label-null: #7c818b;
+  --le-label-other: #3f8fa1;
+
+  --le-checker-a: #ffffff;
+  --le-checker-b: #e9eaed;
+
+  --le-shadow-popover: 0 0 0 1px var(--le-line-strong), 0 8px 24px -6px rgb(16 24 40 / 0.16);
+  --le-shadow-dialog: 0 0 0 1px var(--le-line-strong), 0 24px 64px -16px rgb(16 24 40 / 0.28);
+  --le-shadow-thumb: 0 1px 2px rgb(16 24 40 / 0.25);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--le-surface-0);
+    color: var(--le-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv11' 1;
+  }
+
+  /* The app is a tool, not a document: chrome is not text-selectable. */
+  #root {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  input,
+  textarea,
+  [contenteditable='true'],
+  .selectable {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  ::selection {
+    background: var(--le-selected-strong);
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--le-accent);
+    outline-offset: -1px;
+  }
+
+  button {
+    cursor: default;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* Thin, quiet scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--le-line-strong) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--le-line-strong);
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--le-fg-faint);
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+@utility checkerboard {
+  background-color: var(--le-checker-a);
+  background-image:
+    linear-gradient(45deg, var(--le-checker-b) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--le-checker-b) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--le-checker-b) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--le-checker-b) 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+}
+
+@utility checkerboard-sm {
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #d9dbe0 25%, transparent 25%),
+    linear-gradient(-45deg, #d9dbe0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d9dbe0 75%),
+    linear-gradient(-45deg, transparent 75%, #d9dbe0 75%);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    0 4px,
+    4px -4px,
+    -4px 0;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes le-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes le-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes le-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Icons: consistent, slightly lighter stroke than lucide's default. */
+svg.lucide {
+  stroke-width: 1.75;
+}
+
+/* react-colorful, restyled to match the design system */
+.le-color-picker .react-colorful {
+  width: 100%;
+  height: auto;
+  gap: 10px;
+}
+.le-color-picker .react-colorful__saturation {
+  height: 150px;
+  border-radius: var(--radius-md);
+  border-bottom: none;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+}
+.le-color-picker .react-colorful__hue,
+.le-color-picker .react-colorful__alpha {
+  height: 10px;
+  border-radius: 999px;
+}
+.le-color-picker .react-colorful__last-control {
+  border-radius: 999px;
+}
+.le-color-picker .react-colorful__pointer {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.2),
+    0 1px 3px rgb(0 0 0 / 0.4);
+}
+.le-color-picker .react-colorful__hue-pointer,
+.le-color-picker .react-colorful__alpha-pointer {
+  width: 14px;
+  height: 14px;
+}

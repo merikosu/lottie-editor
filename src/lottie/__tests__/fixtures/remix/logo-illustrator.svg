@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 100"
+	 style="enable-background:new 0 0 200 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#0A98FD;}
+	.st1{fill:#FFFFFF;stroke:#0A98FD;stroke-width:4;stroke-miterlimit:10;}
+	.st2{fill:url(#SVGID_1_);}
+</style>
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:aipgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:aipgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<g id="Mark" data-name="Brand Mark">
+			<circle class="st0" cx="50" cy="50" r="40"/>
+			<path class="st1" d="M30,50c0-11,9-20,20-20s20,9,20,20s-9,20-20,20S30,61,30,50z"/>
+		</g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="100" y1="50" x2="190" y2="50">
+			<stop  offset="0" style="stop-color:#0A98FD"/>
+			<stop  offset="1" style="stop-color:#7B61FF"/>
+		</linearGradient>
+		<rect id="Word" x="100" y="35" class="st2" width="90" height="30" rx="6"/>
+	</g>
+</switch>
+</svg>

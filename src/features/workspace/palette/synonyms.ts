@@ -1,0 +1,191 @@
+/**
+ * Extra search words for commands, by command id, in English and Russian. Features register
+ * their own `keywords`; this map adds the words people actually type for common tasks
+ * ("compress" → Optimize, "cut" → Trim, "hotkeys" → Keyboard shortcuts). Ids that are not
+ * registered are simply ignored.
+ */
+export const SYNONYMS: Readonly<Record<string, readonly string[]>> = {
+  // File
+  'file.new': ['new file', 'empty', 'новый файл', 'новая анимация'],
+  'file.open': ['load', 'browse', 'file', 'загрузить', 'файл'],
+  'file.download': ['save', 'save as', 'json', 'сохранить', 'скачать'],
+  'file.export': [
+    'save as',
+    'render',
+    'gif',
+    'mp4',
+    'webm',
+    'video',
+    'png',
+    'svg',
+    'sprite',
+    'dotlottie',
+    'lottie',
+    'экспорт',
+    'экспортировать',
+    'видео',
+    'сохранить как',
+  ],
+  'file.share': ['link', 'send', 'поделиться', 'ссылка'],
+  'file.revert': ['original', 'discard', 'reset', 'откатить', 'исходный', 'отменить все'],
+  'file.close': ['close file', 'закрыть'],
+
+  // Edit
+  'edit.undo': ['back', 'step back', 'отменить', 'назад'],
+  'edit.redo': ['repeat', 'step forward', 'повторить', 'вернуть'],
+  'edit.history': ['undo history', 'steps', 'history', 'история', 'шаги', 'отмена'],
+  'edit.delete': ['remove', 'erase', 'удалить', 'стереть'],
+  'edit.duplicate': ['clone', 'copy', 'дублировать', 'копия', 'клонировать'],
+  'edit.selectAll': ['all', 'выделить все', 'выбрать все'],
+  'edit.deselect': ['clear selection', 'снять выделение'],
+
+  // View
+  'view.zoomFit': ['fit', 'center', 'вписать', 'по размеру окна'],
+  'view.zoom100': ['actual size', '100%', 'реальный размер'],
+  'view.toggleUi': [
+    'focus mode',
+    'hide panels',
+    'full screen',
+    'zen',
+    'скрыть панели',
+    'полный экран',
+  ],
+  'view.code': ['json', 'source', 'code', 'код', 'исходник'],
+  'view.split': ['json', 'side by side', 'рядом', 'разделить'],
+  'view.theme.toggle': [
+    'theme',
+    'dark mode',
+    'light mode',
+    'appearance',
+    'тема',
+    'тёмная тема',
+    'светлая тема',
+    'оформление',
+  ],
+  'view.compare': ['before after', 'diff', 'до и после'],
+  'view.bg.cycle': ['background', 'backdrop', 'фон'],
+
+  // Animation
+  'anim.settings': ['document', 'properties', 'info', 'документ', 'свойства'],
+  // Not "theme": that is the light/dark switch (view.theme.toggle).
+  'anim.colors': ['recolor', 'palette', 'swatches', 'перекрасить', 'палитра', 'цвета'],
+  'anim.optimize': [
+    'compress',
+    'minify',
+    'reduce size',
+    'smaller',
+    'shrink',
+    'file size',
+    'сжать',
+    'уменьшить',
+    'размер файла',
+    'оптимизация',
+  ],
+  'anim.issues': [
+    'validate',
+    'errors',
+    'warnings',
+    'problems',
+    'check',
+    'lint',
+    'проверка',
+    'ошибки',
+    'проблемы',
+  ],
+  'anim.trim': ['cut', 'crop', 'shorten', 'обрезать', 'укоротить'],
+  'anim.resize': ['crop', 'canvas', 'resolution', 'холст', 'разрешение'],
+  'anim.timing': ['slow down', 'speed up', 'faster', 'slower', 'быстрее', 'медленнее'],
+  'anim.addMarker': ['marker', 'label', 'маркер', 'метка'],
+
+  // Layer
+  'layer.rename': ['name', 'label', 'имя', 'переименовать'],
+  'layer.toggleVisibility': [
+    'eye',
+    'visibility',
+    'hide',
+    'show',
+    'видимость',
+    'скрыть',
+    'показать',
+  ],
+  'layer.toggleLock': ['lock', 'unlock', 'freeze', 'заблокировать', 'разблокировать'],
+  'layer.toggleSolo': ['isolate', 'solo', 'соло', 'изолировать'],
+  'layer.group': ['group', 'сгруппировать', 'группа'],
+  'layer.bringToFront': ['arrange', 'order', 'top', 'порядок', 'наверх'],
+  'layer.sendToBack': ['arrange', 'order', 'bottom', 'порядок', 'вниз'],
+
+  // Keyframes
+  'keyframes.easyEase': ['smooth', 'ease', 'bezier', 'curve', 'сгладить', 'кривая', 'плавно'],
+  'keyframes.toggleHold': ['step', 'jump', 'удержание', 'ступенька'],
+  'keyframes.delete': ['remove keys', 'удалить ключи'],
+
+  // Playback
+  'playback.toggle': [
+    'play',
+    'pause',
+    'stop',
+    'start',
+    'preview',
+    'воспроизвести',
+    'пауза',
+    'старт',
+    'стоп',
+  ],
+  'playback.cycleMode': ['loop', 'repeat', 'ping-pong', 'bounce', 'цикл', 'повтор'],
+  'playback.start': ['beginning', 'rewind', 'first frame', 'в начало', 'первый кадр'],
+  'playback.end': ['last frame', 'в конец', 'последний кадр'],
+
+  // Go to
+  'app.home': ['start', 'start page', 'welcome', 'main', 'главная', 'начало', 'стартовая', 'домой'],
+  'app.edit': [
+    'editor',
+    'layers',
+    'timeline',
+    'keyframes',
+    'редактор',
+    'редактировать',
+    'слои',
+    'таймлайн',
+  ],
+  'app.customize': [
+    'logo',
+    'brand',
+    'branding',
+    'replace logo',
+    'template',
+    'personalize',
+    'лого',
+    'логотип',
+    'бренд',
+    'шаблон',
+    'настроить',
+    'кастомизировать',
+  ],
+  'app.optimize': [
+    'compress',
+    'minify',
+    'reduce size',
+    'smaller',
+    'shrink',
+    'batch',
+    'сжать',
+    'уменьшить',
+    'оптимизация',
+    'оптимизировать',
+  ],
+
+  // Help
+  'help.shortcuts': [
+    'keyboard',
+    'hotkeys',
+    'keys',
+    'keybindings',
+    'cheat sheet',
+    'горячие клавиши',
+    'сочетания клавиш',
+    'клавиатура',
+    'шпаргалка',
+  ],
+  'help.settings': ['preferences', 'options', 'config', 'настройки', 'параметры'],
+  'help.about': ['version', 'license', 'credits', 'info', 'о программе', 'версия', 'лицензии'],
+}

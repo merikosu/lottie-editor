@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <mask id="m"><rect width="50" height="50" fill="#fff"/></mask>
+    <filter id="blur"><feGaussianBlur stdDeviation="2"/></filter>
+    <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1"/></pattern>
+    <clipPath id="half"><rect width="50" height="100"/></clipPath>
+  </defs>
+  <text id="title" x="10" y="20">Brand</text>
+  <image id="photo" href="data:image/png;base64,AAAA" width="10" height="10"/>
+  <rect id="masked" width="80" height="80" mask="url(#m)"/>
+  <circle id="blurred" cx="50" cy="50" r="10" filter="url(#blur)"/>
+  <rect id="patterned" width="10" height="10" fill="url(#dots) #0f0"/>
+  <rect id="clipped" width="100" height="100" clip-path="url(#half)"/>
+  <rect id="spinning" width="5" height="5"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1s"/></rect>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100">
+  <defs>
+    <symbol id="dot" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></symbol>
+    <path id="tri" d="M0 0 L10 0 L5 8 Z"/>
+    <g id="pair"><use xlink:href="#tri"/><use href="#tri" x="20"/></g>
+  </defs>
+  <use href="#dot" x="10" y="10" width="20" height="20" fill="#f00"/>
+  <use xlink:href="#pair" transform="translate(50 50)" fill="#00f"/>
+  <use href="#missing"/>
+</svg>
