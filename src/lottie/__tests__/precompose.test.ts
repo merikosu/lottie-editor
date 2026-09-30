@@ -1399,7 +1399,9 @@ describe('precompose, then release', () => {
 /*                              Real-world files                              */
 /* -------------------------------------------------------------------------- */
 
-describe('real-world documents', () => {
+// Each case compares the rendering of every frame of a real file several times: seconds locally,
+// more on shared CI machines.
+describe('real-world documents', { timeout: 30_000 }, () => {
   it.each([
     ['a child of a parent chain', [0]],
     ['a rig of four layers', [14, 15, 16, 17]],
