@@ -257,6 +257,18 @@ const exportNs = {
       'Text uses web fonts that are not inside the SVG: other apps show it in a fallback font.',
   },
 
+  /* ------------------------- Still frame (Lottie) ---------------------- */
+  still: {
+    content: 'Content',
+    animation: 'Animation',
+    frame: 'One frame',
+    note: 'The file shows only this frame, without animation: every value is fixed and hidden content is left out.',
+    expressions: (n: number) =>
+      `${pluralEn(n, 'expression', 'expressions')} left out: the frame shows keyframed values.`,
+    autoOrient: (n: number) =>
+      `Auto-orientation is lost on ${pluralEn(n, 'tilted 3D layer', 'tilted 3D layers')}.`,
+  },
+
   /* ---------------------------- PNG sequence -------------------------- */
   sequenceFiles: (first: string, last: string) => `${first} … ${last}`,
 
@@ -318,6 +330,7 @@ const exportNs = {
     copyFrameSvg: 'Copy frame as SVG',
     saveFramePng: 'Save frame as PNG',
     copyJson: 'Copy Lottie JSON',
+    exportFrameLottie: 'Export frame as Lottie…',
   },
 }
 

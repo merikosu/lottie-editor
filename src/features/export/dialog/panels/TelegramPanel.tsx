@@ -11,6 +11,7 @@ import { updateFormatPrefs } from '../../store'
 import { Note, OptionDivider, OptionHeading, OptionRow, OptionStack } from '../fields'
 import { SwitchField } from './common'
 import { TransformRows } from './LottiePanels'
+import { StillRows } from './StillRows'
 import type { PanelProps } from './types'
 
 function StatusIcon({ status }: { status: TgsCheckStatus }) {
@@ -92,7 +93,8 @@ function Budget({ bytes }: { bytes: number }) {
 
 const set = (patch: Partial<TgsOptions>) => updateFormatPrefs('tgs', patch)
 
-export function TelegramPanel({ doc, prefs, model }: PanelProps) {
+export function TelegramPanel(props: PanelProps) {
+  const { doc, prefs, model } = props
   const t = useT()
   const fmt = useFormatter()
   const o = prefs.tgs
@@ -109,6 +111,7 @@ export function TelegramPanel({ doc, prefs, model }: PanelProps) {
 
   return (
     <OptionStack>
+      <StillRows {...props} />
       {report && !model.tgs.pending && (
         <div
           className={cn(

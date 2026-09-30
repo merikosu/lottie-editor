@@ -10,6 +10,7 @@ import type { ExportRenderer } from '@/export/render'
 import { useT } from '@/i18n'
 import { cn } from '@/lib/cn'
 import { hasModKey } from '@/lib/platform'
+import { stillFrame } from '@/lottie/still'
 import type { Animation } from '@/lottie/types'
 import { useDocument, type DocumentMeta } from '@/store/document'
 import { usePlayback } from '@/store/playback'
@@ -17,7 +18,7 @@ import { usePrefs } from '@/store/prefs'
 import { copyExport, downloadOutput, notifyDone, startExport } from '../actions'
 import { documentHasExpressions } from '../expressions'
 import { useFormatter } from '../format'
-import { FORMATS, defaultBaseName, formatExtension, joinFileName } from '../formats'
+import { FORMATS, defaultBaseName, formatExtension, isStillFormat, joinFileName } from '../formats'
 import type { ExportInput } from '../run'
 import {
   cancelExport,
@@ -112,13 +113,20 @@ function Panel({
   }
 }
 
+/** Props of `openDialog(EXPORT_DIALOG, …)`. */
+export interface ExportDialogProps {
+  /** Start with "One frame" as the content of the Lottie formats. */
+  still?: boolean
+}
+
 interface BodyProps {
   doc: Animation
   meta: DocumentMeta
   close: () => void
+  initialStill: boolean
 }
 
-function ExportDialogBody({ doc, meta, close }: BodyProps) {
+function ExportDialogBody({ doc: source, meta, close, initialStill }: BodyProps) {
   const t = useT()
   const fmt = useFormatter()
   const prefs = useExportPrefs()
@@ -131,11 +139,19 @@ function ExportDialogBody({ doc, meta, close }: BodyProps) {
   const error = useExportJob((s) => (s.error && s.errorFor === prefs ? s.error : null))
   const listRef = useRef<HTMLDivElement>(null)
   const [frame, setFrame] = useState(() => Math.round(usePlayback.getState().frame))
+  const [still, setStill] = useState(initialStill)
+  // One frame as its own Lottie: the formats that hold a Lottie export that still instead.
+  const stillActive = still && isStillFormat(format)
+  const stillResult = useMemo(
+    () => (stillActive ? stillFrame(source, frame) : null),
+    [stillActive, source, frame],
+  )
+  const doc = stillResult?.anim ?? source
   // null: follow the document name; otherwise the name the user typed.
   const [nameDraft, setNameDraft] = useState<string | null>(null)
 
   const renderer: ExportRenderer = prefs.renderer === 'auto' ? viewRenderer : prefs.renderer
-  const baseName = nameDraft ?? defaultBaseName(format, meta.fileName, frame)
+  const baseName = nameDraft ?? defaultBaseName(format, meta.fileName, frame, stillActive)
   const expressionsOff = useMemo(
     () => !runExpressions && documentHasExpressions(doc),
     [doc, runExpressions],
@@ -214,6 +230,12 @@ function ExportDialogBody({ doc, meta, close }: BodyProps) {
     viewRenderer,
     fileName,
     expressionsOff,
+    source,
+    still,
+    onStill: setStill,
+    stillInfo: stillResult
+      ? { expressions: stillResult.expressions, lostAutoOrient: stillResult.lostAutoOrient }
+      : null,
   }
 
   const footerStart = running ? (
@@ -374,9 +396,12 @@ function ExportDialogBody({ doc, meta, close }: BodyProps) {
 }
 
 /** Registered dialog: renders nothing without a document. */
-export function ExportDialog({ close }: DialogComponentProps) {
+export function ExportDialog({
+  close,
+  props,
+}: DialogComponentProps<ExportDialogProps | undefined>) {
   const doc = useDocument((s) => s.doc)
   const meta = useDocument((s) => s.meta)
   if (!doc || !meta) return null
-  return <ExportDialogBody doc={doc} meta={meta} close={close} />
+  return <ExportDialogBody doc={doc} meta={meta} close={close} initialStill={!!props?.still} />
 }

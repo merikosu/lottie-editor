@@ -29,6 +29,7 @@ export const MENUS: MenuDef[] = [
       '-',
       'file.download',
       'file.export',
+      'export.frameLottie',
       'themes.export',
       '-',
       'file.revert',

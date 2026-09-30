@@ -19,4 +19,11 @@ export interface PanelProps {
   fileName: string
   /** The document uses expressions that the preview does not run. */
   expressionsOff: boolean
+  /** The document being edited (`doc` is the still frame while one is exported). */
+  source: Animation
+  /** Lottie formats: export one frame as a still Lottie instead of the animation. */
+  still: boolean
+  onStill: (still: boolean) => void
+  /** What the still frame left out (null when no still is exported). */
+  stillInfo: { expressions: number; lostAutoOrient: number } | null
 }

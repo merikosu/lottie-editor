@@ -52,7 +52,9 @@ also works offline, and it can be installed as a desktop app that opens `.json`,
 - JSON view (CodeMirror) with validation, apply/revert, reveal the selected node and split view.
 - Export: Lottie JSON (minify, precision), dotLottie, Telegram sticker, GIF, MP4, WebM (with
   transparency), PNG sequence, a single frame as PNG or SVG, and embed code (HTML, web component,
-  React).
+  React). Lottie, dotLottie and Telegram stickers can also hold one frame as a still Lottie
+  (**File → Export frame as Lottie…**): every value is fixed at that frame and hidden content is
+  left out, e.g. for a sticker pack.
 - Undo/redo for everything (one step per gesture), history panel, autosave with restore, recent
   files, command palette (⌘K), a full set of keyboard shortcuts (`?`), light and dark themes,
   English and Russian.

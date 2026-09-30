@@ -99,6 +99,36 @@ test('Telegram sticker: a gzipped Lottie at 60 fps that opens again', async ({ p
   await expect(page.getByRole('contentinfo')).toContainText('60 fps')
 })
 
+test('one frame as a sticker: a still Lottie of the chosen frame, without keyframes', async ({
+  page,
+  editor,
+}) => {
+  const { dialog } = await openExport(page, 'tgs')
+  await dialog
+    .getByRole('radiogroup', { name: 'Content' })
+    .getByRole('radio', { name: 'One frame' })
+    .click()
+  const frame = dialog.getByRole('spinbutton', { name: 'Frame' })
+  await frame.fill('15')
+  await frame.press('Enter')
+  await expect(dialog.getByTestId('export-filename')).toHaveValue('bounce-frame-15')
+  const download = await downloadOf(page, () => dialog.getByTestId('export-submit').click())
+  expect(download.suggestedFilename()).toBe('bounce-frame-15.tgs')
+  const bytes = await downloadBytes(download)
+  const sticker = JSON.parse(strFromU8(gunzipSync(new Uint8Array(bytes)))) as {
+    ip: number
+    op: number
+  }
+  expectLottie(sticker)
+  expect(sticker).toMatchObject({ tgs: 1, w: 512, h: 512, fr: 60, ip: 0 })
+  // Nothing animates: no keyframe anywhere in the file.
+  expect(JSON.stringify(sticker)).not.toMatch(/"a":1/)
+
+  // The document itself is unchanged and still animated.
+  await expect(editor.layer('Ball')).toBeVisible()
+  await expect(page.getByRole('contentinfo')).toContainText('60 f')
+})
+
 test('GIF: every frame at full size, looping forever', async ({ page }) => {
   const download = await exportAs(page, 'gif')
   expect(download?.suggestedFilename()).toBe('bounce.gif')

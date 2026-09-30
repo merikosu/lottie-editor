@@ -14,7 +14,7 @@ import { getDoc, useDocument } from '@/store/document'
 import { usePlayback } from '@/store/playback'
 import { usePrefs } from '@/store/prefs'
 import { openDialog } from '@/store/ui'
-import { FORMATS, defaultBaseName, formatExtension, joinFileName } from './formats'
+import { FORMATS, defaultBaseName, formatExtension, isStillFormat, joinFileName } from './formats'
 import type { ExportInput } from './run'
 import {
   isExporting,
@@ -34,10 +34,13 @@ const loadActions = () => import('./actions')
 const hasDoc = () => getDoc() !== null
 const canExport = () => hasDoc() && !isExporting()
 
-/** Opens the export dialog, on `format` or the last one used. */
-export function openExport(format?: ExportFormat): void {
+/**
+ * Opens the export dialog, on `format` or the last one used. `still`: start with one frame as
+ * the content of the Lottie formats.
+ */
+export function openExport(format?: ExportFormat, opts: { still?: boolean } = {}): void {
   if (format) setExportFormat(format)
-  openDialog(EXPORT_DIALOG)
+  openDialog(EXPORT_DIALOG, opts.still ? { still: true } : undefined)
 }
 
 /** Export input for commands run outside the dialog (current frame, remembered options). */
@@ -183,6 +186,29 @@ export function register(): () => void {
       enabled: canExport,
       run: () => openExport(c.format),
     })),
+    {
+      id: 'export.frameLottie',
+      title: (t) => t.export.commands.exportFrameLottie,
+      category: 'file',
+      icon: FORMATS.json.icon,
+      keywords: [
+        'export',
+        'frame',
+        'still',
+        'static',
+        'sticker',
+        'экспорт',
+        'кадр',
+        'статичный',
+        'стикер',
+      ],
+      enabled: canExport,
+      // The last Lottie format used (a sticker pack keeps choosing Telegram), else JSON.
+      run: () => {
+        const last = useExportPrefs.getState().format
+        openExport(isStillFormat(last) ? last : 'json', { still: true })
+      },
+    },
     {
       id: 'export.copyFramePng',
       title: (t) => t.export.commands.copyFramePng,

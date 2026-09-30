@@ -125,8 +125,14 @@ export function formatExtension(
 }
 
 /** Base name (no extension) suggested for an export of the document. */
-export function defaultBaseName(format: ExportFormat, fileName: string, frame: number): string {
+export function defaultBaseName(
+  format: ExportFormat,
+  fileName: string,
+  frame: number,
+  still = false,
+): string {
   const stem = sanitizeFileName(fileStem(fileName || 'animation'), 'animation')
+  if (still && isStillFormat(format)) return `${stem}-frame-${Math.max(0, Math.round(frame))}`
   switch (format) {
     case 'png':
       return `${stem}-frames`
@@ -136,6 +142,11 @@ export function defaultBaseName(format: ExportFormat, fileName: string, frame: n
     default:
       return stem
   }
+}
+
+/** Formats that can hold one frame as a still Lottie instead of the animation. */
+export function isStillFormat(format: ExportFormat): format is 'json' | 'dotlottie' | 'tgs' {
+  return format === 'json' || format === 'dotlottie' || format === 'tgs'
 }
 
 /** Joins a (user-edited) base name and an extension into a safe file name. */

@@ -14,6 +14,7 @@ import { useFormatter } from '../../format'
 import { updateFormatPrefs } from '../../store'
 import { Note, OptionDivider, OptionHeading, OptionRow, OptionStack, RowNote } from '../fields'
 import { Stat, SwitchField } from './common'
+import { StillRows } from './StillRows'
 import type { PanelProps } from './types'
 
 function PrecisionSelect({
@@ -73,7 +74,8 @@ export function TransformRows({
   )
 }
 
-export function JsonPanel({ doc, prefs, model }: PanelProps) {
+export function JsonPanel(props: PanelProps) {
+  const { doc, prefs, model } = props
   const t = useT()
   const fmt = useFormatter()
   const o = prefs.json
@@ -82,6 +84,7 @@ export function JsonPanel({ doc, prefs, model }: PanelProps) {
   const change = stats ? stats.bytes / Math.max(1, stats.baseline) - 1 : 0
   return (
     <OptionStack>
+      <StillRows {...props} />
       <OptionRow label={t.export.fields.formatting}>
         <SegmentedControl<'min' | 'pretty'>
           value={o.pretty ? 'pretty' : 'min'}
@@ -142,7 +145,8 @@ export function JsonPanel({ doc, prefs, model }: PanelProps) {
   )
 }
 
-export function DotLottiePanel({ doc, prefs, model }: PanelProps) {
+export function DotLottiePanel(props: PanelProps) {
+  const { doc, prefs, model } = props
   const t = useT()
   const fmt = useFormatter()
   const o = prefs.dotlottie
@@ -171,6 +175,7 @@ export function DotLottiePanel({ doc, prefs, model }: PanelProps) {
   const v2 = model.dotlottieVersion === 2
   return (
     <OptionStack>
+      <StillRows {...props} />
       <OptionRow label={t.export.fields.version}>
         <Select<typeof o.version>
           value={blockV1 && o.version === '1' ? 'auto' : o.version}
